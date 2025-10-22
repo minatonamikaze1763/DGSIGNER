@@ -1,0 +1,202 @@
+:root {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --accent: #1e3a8a;
+  --muted: #6b7280;
+  --success: #16a34a;
+  --danger: #ef4444;
+  --glass: rgba(30, 58, 138, 0.06);
+  --shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+header {
+  padding: 20px;
+  background: linear-gradient(90deg, #eef2ff, #ffffff);
+  border-bottom: 1px solid rgba(2, 6, 23, 0.04);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+header .muted {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px;
+  max-width: 1200px;
+  margin: 18px auto;
+}
+
+.controls {
+  background: var(--card);
+  padding: 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+.file {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.file input {
+  display: inline-block;
+}
+#sigPassword{
+  padding: .5rem .6rem;
+  border: 1px solid #D0D0D0;
+  border-radius: 8px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.row .btn {
+  height: 38px;
+}
+
+.btn {
+  background: #fff;
+  border: 1px solid #e6eefc;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.btn.secondary {
+  background: transparent;
+  border: 1px solid #c7d2fe;
+}
+
+.status {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.viewer {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.pdf-container {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  flex: 1;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-shadow: var(--shadow);
+}
+
+#pdfCanvas {
+  max-width: 100%;
+  border: 1px solid rgba(2, 6, 23, 0.06);
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  pointer-events: none;
+}
+
+.sidebar {
+  width: 320px;
+  background: var(--card);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.sig-preview {
+  height: 120px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--glass);
+}
+
+.sig-preview img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.selection-rect {
+  position: absolute;
+  border: 2px dashed rgba(59, 130, 246, 0.9);
+  pointer-events: none;
+}
+
+.note {
+  font-size: 12px;
+  color: var(--muted);
+  background: #fbfbff;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(2, 6, 23, 0.03);
+}
+
+footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+pre {
+  white-space: pre-wrap;
+  font-family: monospace;
+  background: transparent;
+  padding: 6px;
+  margin: 6px 0;
+}

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Digital Signer — Visual PDF Sign</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <!-- pdf-lib -->
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <!-- forge (for reading .p12 / .pfx metadata only) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/forge/0.10.0/forge.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Digital Signer</h1>
+    <p class="muted">Upload PDF → preview → select area → load e-sign (from pendrive) → sign (visual) → download</p>
+  </header>
+
+  <main>
+    <section class="controls">
+      <label class="file">
+        <span>Load PDF</span>
+        <input id="pdfFile" type="file" accept="application/pdf">
+      </label>
+
+      <label class="file">
+        <span>Load e-sign (image or .p12/.pfx)</span>
+        <input id="sigFile" type="file" accept=".png,.jpg,.jpeg,.gif,.p12,.pfx">
+      </label>
+
+      <div class="row">
+        <label>
+          <span>Signature password (for .p12/.pfx)</span>
+          <input id="sigPassword" type="password" placeholder="Password for .p12/.pfx (optional)">
+        </label>
+
+        <button id="inspectP12" class="btn">Inspect .p12 (optional)</button>
+      </div>
+
+      <div class="row">
+        <button id="togglePlace" class="btn secondary">Start placing signature</button>
+        <button id="applyBtn" class="btn primary" disabled>Apply & Download Signed PDF</button>
+      </div>
+
+      <div id="status" class="status"></div>
+    </section>
+
+    <section class="viewer">
+      <div id="pdfContainer" class="pdf-container">
+        <canvas id="pdfCanvas"></canvas>
+        <canvas id="overlayCanvas" class="overlay"></canvas>
+      </div>
+
+      <aside class="sidebar">
+        <div>
+          <strong>Page:</strong> <span id="pageIndicator">0 / 0</span>
+        </div>
+        <div>
+          <button id="prevPage" class="btn">Prev</button>
+          <button id="nextPage" class="btn">Next</button>
+        </div>
+
+        <hr>
+
+        <div>
+          <strong>Selected page:</strong> <span id="selectedPage">—</span>
+        </div>
+        <div>
+          <strong>Selection (px):</strong>
+          <pre id="selectionInfo">none</pre>
+        </div>
+
+        <hr>
+
+        <div>
+          <strong>Signature preview:</strong>
+          <div id="sigPreview" class="sig-preview">No signature loaded</div>
+        </div>
+
+        <div class="note">
+          <strong>Note:</strong> This tool embeds a visual signature image into the PDF. It does <em>not</em> create a cryptographic/legal digital signature (CMS/PKCS#7 embedded into PDF). For legally-binding digital signatures you will need a certificate and either a server-side signing flow or a complete client-side PDF signing library.
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <small>Built for local use. Your files never leave your browser in this demo.</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
