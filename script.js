@@ -341,8 +341,7 @@
   sigFileInput.addEventListener('change', async (e) => {
     const f = e.target.files && e.target.files[0];
     if (!f) return;
-    // await handleSignatureFile(f);
-    await signLocally(f);
+    await handleSignatureFile(f);
   });
   
   inspectBtn.addEventListener('click', () => inspectP12());
@@ -365,10 +364,49 @@
     await renderPage(currentPageNum);
     resetSelection();
   });
-  
+  /*
   applyBtn.addEventListener('click', async () => {
     await applySignatureAndDownload();
   });
+  */
+  applyBtn.addEventListener('click', async () => {
+    // Assume `f` is the selected PDF File object
+    // and you have stored user click coordinates as x, y, width, height
+    const rect = {
+      x: selectedArea.x,
+      y: selectedArea.y,
+      width: selectedArea.width,
+      height: selectedArea.height,
+      page: currentPageNumber // optional if multi-page
+    };
+    
+    await signLocally(f, rect);
+  });
+  
+  async function signLocally(file, rect) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("rect", JSON.stringify(rect));
+    
+    const res = await fetch("http://localhost:5678/sign", {
+      method: "POST",
+      body: formData
+    });
+    
+    if (!res.ok) {
+      const err = await res.text();
+      console.error("Signing failed:", err);
+      alert("Signing failed — see console for details");
+      return;
+    }
+    
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "signed.pdf";
+    a.click();
+  }
   
   // overlayCanvas mouse events
   overlayCanvas.addEventListener('mousedown', (ev) => {
@@ -428,27 +466,6 @@
       drawOverlay();
     }
   });
-  async function signLocally(file) {
-    const formData = new FormData();
-    formData.append("file", file);
-    
-    const res = await fetch("http://localhost:5678/sign", {
-      method: "POST",
-      body: formData
-    });
-    
-    if (!res.ok) {
-      alert("Signing failed");
-      return;
-    }
-    
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "signed.pdf";
-    a.click();
-  }
   // helper: when user navigates pages we must clear selection if it belonged to another page
   // that's handled in page change (resetSelection called on page load)
   
