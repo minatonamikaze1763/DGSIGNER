@@ -341,7 +341,8 @@
   sigFileInput.addEventListener('change', async (e) => {
     const f = e.target.files && e.target.files[0];
     if (!f) return;
-    await handleSignatureFile(f);
+    // await handleSignatureFile(f);
+    await signLocally(f);
   });
   
   inspectBtn.addEventListener('click', () => inspectP12());
@@ -427,7 +428,27 @@
       drawOverlay();
     }
   });
-  
+  async function signLocally(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    const res = await fetch("http://localhost:5678/sign", {
+      method: "POST",
+      body: formData
+    });
+    
+    if (!res.ok) {
+      alert("Signing failed");
+      return;
+    }
+    
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "signed.pdf";
+    a.click();
+  }
   // helper: when user navigates pages we must clear selection if it belonged to another page
   // that's handled in page change (resetSelection called on page load)
   
