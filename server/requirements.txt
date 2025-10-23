@@ -1,0 +1,4 @@
+flask
+endesive
+cryptography
+pypdf2

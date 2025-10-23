@@ -1,0 +1,6 @@
+DigitalSigner/
+│
+├── signer_server.py ← Python backend
+├── requirements.txt
+├── install_requirements.bat
+└── run_signer.bat
